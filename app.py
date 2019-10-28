@@ -53,6 +53,7 @@ y -> Yes, done with program. We should exit program.
 
 n -> No, we still have other queries. We should continue program.
 '''
+    clear_screen()
     print(welcome_message)
 
     while True:
