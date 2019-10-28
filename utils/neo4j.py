@@ -23,3 +23,5 @@ class Neo4jController():
                 # create relationships using merge
                 pass
 
+    def query_db(self, query):
+        print(query)
