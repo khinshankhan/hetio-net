@@ -1,11 +1,83 @@
+import os
+
 from utils import neo4j
 from utils import mongo
 
 
+def clear_screen():
+    "Clears the screen depending on OS"
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def user_input(choice_details, choices):
+    "Handle user input and validation."
+    choice = None
+
+    while True:
+        choice = input("Enter your choice: ")
+        if not choices or choice in choices:
+            print()
+            break
+
+        clear_screen()
+        print("Invalid choice! remember the choices are: ")
+        print(choice_details)
+
+    return choice
+
+
 def main():
     "Executes splash screen and UI to use Hetio Net."
-    print("Welcome")
+    welcome_message = '''Welcome!
+
+This is a simulation of Hetio Net, an integrative network of biomedical
+knowledge assembled from 29 different databases of genes, compounds, diseases,
+and more. The network combines over 50 years of biomedical information into a
+single resource, consisting of 47,031 nodes (11 types) and 2,250,197
+relationships (24 types).
+
+
+This simulation will attempt to answer 2 queries:'''
+    queries = '''
+1 -> Given a disease, what is its name, what are drug names that can treat or
+palliate this disease, what are gene names that cause this disease, and where
+this disease occurs?
+
+2 -> Supposed that a drug can treat a disease if the drug or its similar drugs
+up-regulate/down-regulate a gene, but the location down-regulates/up-regulates
+the gene in an opposite direction where the disease occurs. Find all drugs
+that can treat new diseases (i.e. the missing edges between drug and disease).
+'''
+    exiting = '''
+y -> Yes, done with program. We should exit program.
+
+n -> No, we still have other queries. We should continue program.
+'''
+    print(welcome_message)
+
+    while True:
+        # get user query choice
+        print('Query Choices:', queries)
+        choice = user_input(queries, ('1', '2'))
+        # get information relevant to choice
+        clear_screen()
+        msg = 'disease' if choice == '1' else 'drug'
+        msg = f'Next, for the query, enter the name of the relevant {msg}: '
+        choice = input(msg)
+        # get query from related db
+        clear_screen()
+        print("QUERY!")
+        # ask to exit at this point
+        print('\n\n\nWould you like to exit the program now?', exiting)
+        choice = user_input(exiting, ('y', 'n'))
+        if choice == 'y':
+            break
+
+        clear_screen()
+
+    print('Goodbye!')
 
 
 if __name__ == "__main__":
+    # run main program
     main()
