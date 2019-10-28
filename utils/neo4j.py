@@ -16,13 +16,17 @@ class Neo4jController():
         self.graph.delete_all()
 
     def create_db(self):
+        labels = ["Compound", "Disease", "Gene", "Anatomy"]
+        for label in labels:
+            query = f"CREATE CONSTRAINT ON (n:{label} ASSERT n.id is UNIQUE)"
+
         query = """
         USING PERIODIC COMMIT 5000
         LOAD CSV WITH HEADERS FROM "file:/nodes.tsv" AS row FIELDTERMINATOR "\\t"
         CREATE ({id:row.id, name:row.name, kind:row.kind});
         """
         self.graph.run(query)
-        labels = ["Compound", "Disease", "Gene", "Anatomy"]
+
         for label in labels:
             query = f"MATCH (n) WHERE n.kind = '{label}' SET n:{label}"
             self.graph.run(query)
