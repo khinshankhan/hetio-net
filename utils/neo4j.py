@@ -21,7 +21,7 @@ class Neo4jController():
             query = f"CREATE CONSTRAINT ON (n:{label} ASSERT n.id is UNIQUE)"
 
         query = """
-        USING PERIODIC COMMIT 5000
+        USING PERIODIC COMMIT 500
         LOAD CSV WITH HEADERS FROM "file:/nodes.tsv" AS row FIELDTERMINATOR "\\t"
         CREATE ({id:row.id, name:row.name, kind:row.kind});
         """
