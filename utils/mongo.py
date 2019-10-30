@@ -76,11 +76,15 @@ class MongoController():
         # CtD = Compound Treats Disease
         # CpD = Compound Palliates Diseases
         # DaG = Disease Associates Genes
+        # DuG = Disease Upregulates Gene
+        # DdG = Disease Downregulates Genes
         # DlA = Disease Localizes Anatomy
         r_map = {
             "CtD": ['target', 'source', "Compound", "treat"],
             "CpD": ['target', 'source', "Compound", "palliate"],
             "DaG": ['source', 'target', "Gene", "gene"],
+            "DuG": ['source', 'target', "Gene", "gene"],
+            "DdG": ['source', 'target', "Gene", "gene"],
             "DlA": ['source', 'target', "Anatomy", "where"]
         }
 
@@ -139,12 +143,30 @@ class MongoController():
             print(f'Nothing found for disease "{query}"!')
             return
 
-        information = f'''For disease "{query}" we found the following:
-ID                            : {id}
-Name                          : {name}
-Drugs that can Treat "{query}"   : {", ".join(list(set(treat)))}
-Drugs that can Palliate "{query}": {", ".join(list(set(palliate)))}
-Genes that Cause "{query}"       : {", ".join(list(set(gene)))}
-Where "{query}" Occurs           : {", ".join(list(set(where)))}
-'''
-        print(information)
+        def m_join(sep, items):
+            "cleaner syntax for join to use for mapping"
+            return sep.join(items)
+
+        def m_pretty(items):
+            "Turns a python list -> commas separated str 5 per line"
+            # return None if list was empty
+            if not items:
+                return "None"
+
+            # separate list into groups of 5
+            items = [items[i:i+5] for i in range(0, len(items), 5)]
+            # join the groups of 5 to be comma delimited strs
+            commas = map(lambda x: m_join(", ", x) + ',', items)
+            # join all groups with newlines and take out  commas on last line
+            return m_join("\n\t", commas)[:-1]
+
+        print(
+            f'For disease "{query}" we found the following:',
+            f'ID:\n\t{id}',
+            f'Name:\n\t{name}',
+            f'Drugs that can Treat "{query}":\n\t{m_pretty(treat)}',
+            f'Drugs that can Palliate "{query}":\n\t{m_pretty(palliate)}',
+            f'Genes that cause "{query}":\n\t{m_pretty(gene)}',
+            f'Where "{query}" Occurs:\n\t{m_pretty(where)}',
+            sep='\n\n'
+            )

@@ -87,7 +87,7 @@ def main():
         controller = mongo_controller if choice == '1' else neo4j_controller
         controller.query_db(query)
         # ask to exit at this point
-        print('\n\n\nWould you like to exit the program now?', EXITING)
+        print('\n\n\n\n\nWould you like to exit the program now?', EXITING)
         choice = user_input(EXITING, ('y', 'n'))
         clear_screen()
         if choice == 'y':
