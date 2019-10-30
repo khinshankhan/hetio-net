@@ -45,22 +45,19 @@ class MongoController():
         data = {
             'Anatomy': {},
             'Gene': {},
-            'Disease': [],
+            'Disease': {},
             'Compound': {}
             }
 
         with open(os.path.join(self.data_dir, "nodes.tsv"), "r") as nodes_file:
             reader = csv.DictReader(nodes_file, delimiter="\t")
             for row in reader:
-                if row['kind'] == 'Disease':
-                    data['Disease'].append(row)
-                else:
-                    data[row['kind']][row['id']] = row['name']
+                data[row['kind']][row['id']] = row['name']
 
-        for disease in data['Disease']:
-            diseases[disease['id']] = {
-                'id': disease['id'],
-                'name': disease['name'],
+        for k, v in data['Disease'].items():
+            diseases[k] = {
+                'id': k,
+                'name': v,
                 "treat": [],
                 "palliate": [],
                 "gene": [],
