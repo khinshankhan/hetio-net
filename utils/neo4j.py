@@ -14,6 +14,12 @@ class Neo4jController():
         self.graph.delete_all()
 
     def create_db(self):
+        query = "MATCH (n) RETURN COUNT(n);"
+        result = self.graph.run(query).data()
+        if result[0]['COUNT(n)'] != 0:
+            print("Neo4j database is already created")
+            return
+
         for node_type in node_types:
             print(f"Creating nodes for type: {node_type}")
             query = f"CREATE CONSTRAINT ON (n:{node_type}) ASSERT n.id is UNIQUE"
