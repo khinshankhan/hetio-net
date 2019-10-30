@@ -1,7 +1,10 @@
 import csv
 import os
+
 from py2neo import Graph
 from py2neo.data import Node, Relationship
+
+from utils.common import node_types, edge_types
 
 NEO4J_URL = "localhost:7474"
 NEO4J_USERNAME = "neo4j"
@@ -16,19 +19,16 @@ class Neo4jController():
         self.graph.delete_all()
 
     def create_db(self):
-        labels = ["Compound", "Disease", "Gene", "Anatomy"]
-        for label in labels:
-            query = f"CREATE CONSTRAINT ON (n:{label} ASSERT n.id is UNIQUE)"
+        for node_type in node_types:
+            print(f"Creating nodes for type: {node_type}")
+            query = f"CREATE CONSTRAINT ON (n:{node_type}) ASSERT n.id is UNIQUE"
+            self.graph.run(query)
 
-        query = """
-        USING PERIODIC COMMIT 500
-        LOAD CSV WITH HEADERS FROM "file:/nodes.tsv" AS row FIELDTERMINATOR "\\t"
-        CREATE ({id:row.id, name:row.name, kind:row.kind});
-        """
-        self.graph.run(query)
-
-        for label in labels:
-            query = f"MATCH (n) WHERE n.kind = '{label}' SET n:{label}"
+            query = f"""
+            USING PERIODIC COMMIT 500
+            LOAD CSV WITH HEADERS FROM "file:/{node_type}.tsv" AS row FIELDTERMINATOR "\\t"
+            CREATE (:{node_type} {{id:row.id, name:row.name}});
+            """
             self.graph.run(query)
 
         # load relationships

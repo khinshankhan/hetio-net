@@ -1,10 +1,5 @@
 import os
-
-NEO4J_HOME = "/usr/share/java/neo4j" # can vary based on system
-
-node_types = ["Compound", "Disease", "Gene", "Anatomy"]
-edge_types = ["CrC", "CtD", "CpD", "CuG", "CbG", "CdG", "DrD", "DuG", "DaG",
-        "DdG", "DlA", "AuG", "AeG", "AdG", "Gr>G", "GcG", "GiG"]
+from utils.common import NEO4J_HOME, node_types, edge_types
 
 def write_node_files():
     for node_type in node_types:
