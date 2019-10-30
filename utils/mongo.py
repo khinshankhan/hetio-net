@@ -68,8 +68,8 @@ class MongoController():
                 }
 
         # decompose diseases{} such that each disease becomes a document
-        # in the collection
-        # self.m_col.insert([v for _, v in diseases])
+        # in the collection, which should result in good query times
+        # self.m_col.insert([v for _, v in diseases.items()])
 
     def query_db(self, query):
         "Queries the database."
