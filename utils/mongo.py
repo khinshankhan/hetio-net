@@ -24,6 +24,7 @@ class MongoController():
         # early exit
         if cols != 0:
             return
+
         # The idea is to group the diseases in such a manner that we have only
         # a single document per disease since mongo CRD operations are fast but
         # update is costly. Another benefit is that we only have one db
@@ -37,9 +38,9 @@ class MongoController():
         #     "gene": [str],
         #     "where": [str],
         #     }
-
         diseases = {}
-        self.m_col.insert([disease for disease in diseases])
+
+        self.m_col.insert([v for _, v in diseases])
 
     def query_db(self, query):
         "Queries the database."
