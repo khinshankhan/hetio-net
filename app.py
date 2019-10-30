@@ -13,24 +13,22 @@ and more. The network combines over 50 years of biomedical information into a
 single resource, consisting of 47,031 nodes (11 types) and 2,250,197
 relationships (24 types).
 
-
 This simulation will attempt to answer 2 queries:'''
 
 QUERIES = '''
-1 -> Given a disease, what is its name, what are drug names that can treat or
+1) Given a disease, what is its name, what are drug names that can treat or
 palliate this disease, what are gene names that cause this disease, and where
 this disease occurs?
 
-2 -> Supposed that a drug can treat a disease if the drug or its similar drugs
+2) Supposed that a drug can treat a disease if the drug or its similar drugs
 up-regulate/down-regulate a gene, but the location down-regulates/up-regulates
 the gene in an opposite direction where the disease occurs. Find all drugs
 that can treat new diseases (i.e. the missing edges between drug and disease).
 '''
 
 EXITING = '''
-y -> Yes, done with program. We should exit program.
-
-n -> No, we still have other queries. We should continue program.
+y) Exit the program.
+n) Run another query.
 '''
 
 
@@ -49,7 +47,6 @@ def user_input(choice_details, choices):
             print()
             break
 
-        clear_screen()
         print("Invalid choice! remember the choices are: ")
         print(choice_details)
 
@@ -70,26 +67,29 @@ def main():
     neo4j_controller = Neo4jController()
     neo4j_controller.create_db()
 
-    clear_screen()
     print(WELCOME_MESSAGE)
 
     while True:
         # get user query choice
         print('Query Choices:', QUERIES)
         choice = user_input(QUERIES, ('1', '2'))
+
         # get information relevant to choice
-        clear_screen()
-        msg = 'disease' if choice == '1' else 'drug'
-        msg = f'Next, for the query, enter the name of the relevant {msg}: '
+        if choice == '1':
+            msg = "Enter a disease name: "
+        else:
+            msg = "Enter a drug name (empty for all possible drugs): "
+
         query = input(msg)
+
         # get query from related db
-        clear_screen()
         controller = mongo_controller if choice == '1' else neo4j_controller
         controller.query_db(query)
+
         # ask to exit at this point
-        print('\n\n\n\n\nWould you like to exit the program now?', EXITING)
+        print()
+        print('Would you like to exit the program now?', EXITING)
         choice = user_input(EXITING, ('y', 'n'))
-        clear_screen()
         if choice == 'y':
             break
 

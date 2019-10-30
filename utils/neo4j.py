@@ -17,9 +17,9 @@ class Neo4jController():
         query = "MATCH (n) RETURN COUNT(n);"
         result = self.graph.run(query).data()
         if result[0]['COUNT(n)'] != 0:
-            print("Neo4j database is already created")
             return
 
+        print("Creating Neo4j database")
         for node_type in node_types:
             print(f"Creating nodes for type: {node_type}")
             query = f"CREATE CONSTRAINT ON (n:{node_type}) ASSERT n.id is UNIQUE"
@@ -48,5 +48,24 @@ class Neo4jController():
             """
             self.graph.run(query)
 
-    def query_db(self, query):
-        return self.graph.run(query).data()
+    def query_db(self, compound):
+        if compound == "":
+            query = """
+            MATCH (c:Compound)-[:upregulates]->(:Gene)<-[:downregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            MATCH (c:Compound)-[:downregulates]->(:Gene)<-[:upregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            RETURN DISTINCT c.name, d.name
+            """
+        else:
+            query = f"""
+            MATCH (c:Compound {{name: "{compound}"}})-[:upregulates]->(:Gene)<-[:downregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            MATCH (c:Compound {{name: "{compound}"}})-[:downregulates]->(:Gene)<-[:upregulates]-(d:Disease)
+            WHERE NOT (c)-[:treats]->(d)
+            RETURN DISTINCT c.name, d.name
+            """
+        results = self.graph.run(query)
+        print("Compound-Disease pairs:")
+        for result in results:
+            print(f"\t{result['c.name']}-{result['d.name']}")
