@@ -11,7 +11,7 @@ abbreviations = {"C": "Compound", "D": "Disease", "G": "Gene", "A": "Anatomy",
         "a": "associates", "l": "localizes", "e": "expresses",
         "r>": "regulates", "c": "covaries", "i": "interacts"}
 
-NEO4J_HOME = "/usr/share/java/neo4j" # can vary based on system
-NEO4J_URL = "localhost:7474"
+NEO4J_HOME = "/var/lib/neo4j" # can vary based on system
+NEO4J_URL = "localhost:7687"
 NEO4J_USERNAME = "neo4j"
 NEO4J_PASSWORD = "password"
