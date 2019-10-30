@@ -68,7 +68,7 @@ def main():
     mongo_controller.create_db()
 
     neo4j_controller = Neo4jController()
-    # neo4j_controller.create_db()
+    neo4j_controller.create_db()
 
     clear_screen()
     print(WELCOME_MESSAGE)
