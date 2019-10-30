@@ -76,11 +76,15 @@ class MongoController():
         # CtD = Compound Treats Disease
         # CpD = Compound Palliates Diseases
         # DaG = Disease Associates Genes
+        # DuG = Disease Upregulates Gene
+        # DdG = Disease Downregulates Genes
         # DlA = Disease Localizes Anatomy
         r_map = {
             "CtD": ['target', 'source', "Compound", "treat"],
             "CpD": ['target', 'source', "Compound", "palliate"],
             "DaG": ['source', 'target', "Gene", "gene"],
+            "DuG": ['source', 'target', "Gene", "gene"],
+            "DdG": ['source', 'target', "Gene", "gene"],
             "DlA": ['source', 'target', "Anatomy", "where"]
         }
 
