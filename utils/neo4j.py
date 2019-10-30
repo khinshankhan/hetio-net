@@ -65,7 +65,10 @@ class Neo4jController():
             WHERE NOT (c)-[:treats]->(d)
             RETURN DISTINCT c.name, d.name
             """
-        results = self.graph.run(query)
-        print("Compound-Disease pairs:")
-        for result in results:
-            print(f"\t{result['c.name']}-{result['d.name']}")
+        results = self.graph.run(query).data()
+        if not results:
+            print("No Compound-Disease pairs found")
+        else:
+            print("Compound-Disease pairs:")
+            for result in results:
+                print(f"\t{result['c.name']}-{result['d.name']}")
