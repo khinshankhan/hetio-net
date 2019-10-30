@@ -40,10 +40,35 @@ class MongoController():
         #     }
         diseases = {}
 
+        # this is to splice the data in nodes.tsv so we can add the
+        # relationships from edges.tsv to our nice diseases{}
+        data = {
+            'Anatomy': {},
+            'Gene': {},
+            'Disease': [],
+            'Compound': {}
+            }
+
         with open(os.path.join(self.data_dir, "nodes.tsv"), "r") as nodes_file:
             reader = csv.DictReader(nodes_file, delimiter="\t")
-            # TODO: handle data
+            for row in reader:
+                if row['kind'] == 'Disease':
+                    data['Disease'].append(row)
+                else:
+                    data[row['kind']][row['id']] = row['name']
 
+        for disease in data['Disease']:
+            diseases[disease['id']] = {
+                'id': disease['id'],
+                'name': disease['name'],
+                "treat": [],
+                "palliate": [],
+                "gene": [],
+                "where": [],
+                }
+
+        # decompose diseases{} such that each disease becomes a document
+        # in the collection
         # self.m_col.insert([v for _, v in diseases])
 
     def query_db(self, query):
