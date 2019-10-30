@@ -1,7 +1,7 @@
 import os
 
-from utils import neo4j
-from utils import mongo
+from utils.neo4j import Neo4jController
+from utils.mongo import MongoController
 
 
 WELCOME_MESSAGE = '''Welcome!
@@ -58,10 +58,10 @@ def user_input(choice_details, choices):
 def main():
     "Executes splash screen and UI to use Hetio Net."
     # define dbs for queries
-    mongo_controller = mongo.MongoController()
+    mongo_controller = MongoController()
     mongo_controller.create_db()
 
-    neo4j_controller = neo4j.Neo4jController()
+    neo4j_controller = Neo4jController()
     # neo4j_controller.create_db()
 
     clear_screen()
