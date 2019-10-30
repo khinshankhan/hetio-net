@@ -40,11 +40,62 @@ class MongoController():
         #     }
         diseases = {}
 
+        # this is to splice the data in nodes.tsv so we can add the
+        # relationships from edges.tsv to our nice diseases{}
+        data = {
+            'Anatomy': {},
+            'Gene': {},
+            'Disease': {},
+            'Compound': {}
+        }
+
         with open(os.path.join(self.data_dir, "nodes.tsv"), "r") as nodes_file:
             reader = csv.DictReader(nodes_file, delimiter="\t")
-            # TODO: handle data
+            for row in reader:
+                data[row['kind']][row['id']] = row['name']
 
-        # self.m_col.insert([v for _, v in diseases])
+        for k, v in data['Disease'].items():
+            diseases[k] = {
+                'id': k,
+                'name': v,
+                "treat": [],
+                "palliate": [],
+                "gene": [],
+                "where": [],
+            }
+
+        # In the relationship_map a relation key-value looks like:
+        # "metaedge": [
+        #         disease position,
+        #         information position,
+        #         type of information,
+        #         relation to disease
+        #         ]
+
+        # Relevant relationships:
+        # CtD = Compound Treats Disease
+        # CpD = Compound Palliates Diseases
+        # DaG = Disease Associates Genes
+        # DlA = Disease Localizes Anatomy
+        r_map = {
+            "CtD": ['target', 'source', "Compound", "treat"],
+            "CpD": ['target', 'source', "Compound", "palliate"],
+            "DaG": ['source', 'target', "Gene", "gene"],
+            "DlA": ['source', 'target', "Anatomy", "where"]
+        }
+
+        with open(os.path.join(self.data_dir, "edges.tsv"), "r") as nodes_file:
+            reader = csv.DictReader(nodes_file, delimiter="\t")
+            for row in reader:
+                edge = row['metaedge']
+                if edge in r_map.keys():
+                    diseases[row[r_map[edge][0]]][r_map[edge][3]].append(
+                        data[r_map[edge][2]][row[r_map[edge][1]]]
+                        )
+
+        # decompose diseases{} such that each disease becomes a document
+        # in the collection, which should result in good query times
+        self.m_col.insert([v for _, v in diseases.items()])
 
     def query_db(self, query):
         "Queries the database."
@@ -77,10 +128,10 @@ class MongoController():
             name = i['name']
             # since CRD is fast, and U is slow we get data split into multiple
             # documents
-            treat.append(i['treat'])
-            palliate.append(i['palliate'])
-            gene.append(i['gene'])
-            where.append(i['where'])
+            treat.extend(i['treat'])
+            palliate.extend(i['palliate'])
+            gene.extend(i['gene'])
+            where.extend(i['where'])
             cols += 1
 
         # nothing found, early exit
