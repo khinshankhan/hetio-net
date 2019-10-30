@@ -26,6 +26,7 @@ class MongoController():
             return
         # TEST DATA
         mydict = {
+            "id": "1"
             "name": "woah",
             "treat": "t",
             "palliate": "p",
@@ -33,6 +34,7 @@ class MongoController():
             "where": "w"
             }
         mydict2 = {
+            "id": "1"
             "name": "woah",
             "treat": "tt",
             "palliate": "pp",
@@ -40,7 +42,8 @@ class MongoController():
             "where": "ww"
             }
         mydict3 = {
-            "name": "woah",
+            "id": "2"
+            "name": "hi",
             "treat": "t",
             "palliate": "pp",
             "gene": "g",
@@ -50,9 +53,17 @@ class MongoController():
 
     def query_db(self, query):
         "Queries the database."
-        cur = self.m_col.find({"name": query})
+        cur_id = self.m_col.find({"id": query})
+        cur_name = self.m_col.find({"name": query})
 
         cols = 0  # count return
+        for i cur_id:
+            if cols > 0:
+                break
+            cols += 1
+
+        cur = cur_id if cols != 0 else cur_name
+        cols = 0
         name = ""
         treat = []
         palliate = []
@@ -70,7 +81,7 @@ class MongoController():
             where.append(i['where'])
             cols += 1
 
-#         # nothing found, early exit
+        # nothing found, early exit
         if cols == 0:
             print(f'Nothing found for disease "{query}"!')
             return
