@@ -40,7 +40,11 @@ class MongoController():
         #     }
         diseases = {}
 
-        self.m_col.insert([v for _, v in diseases])
+        with open(os.path.join(self.data_dir, "nodes.tsv"), "r") as nodes_file:
+            reader = csv.DictReader(nodes_file, delimiter="\t")
+            # TODO: handle data
+
+        # self.m_col.insert([v for _, v in diseases])
 
     def query_db(self, query):
         "Queries the database."
