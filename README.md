@@ -1,9 +1,9 @@
 # hetio-net
 Model of HetioNet
 
-# Notes
+## Notes
 
-## edges.tsv relationships
+### edges.tsv relationships
 - CrC = Compound Resembles Compound
 - CtD = Compound Treats Disease
 - CpD = Compound Palliates Diseases
