@@ -12,7 +12,7 @@ def write_node_files():
         print(f"Writing file for {node_type} nodes to {out_file_path}")
         command = f"echo 'id\tname\tkind' > {out_file_path}"
         os.system(command)
-        command = f"grep {node_type} data/nodes.tsv >> {out_file_path}"
+        command = f"grep '{node_type}' data/nodes.tsv >> {out_file_path}"
         os.system(command)
 
 def write_edge_files():
@@ -22,5 +22,5 @@ def write_edge_files():
         print(f"Writing file for {edge_type} edges to {out_file_path}")
         command = f"echo 'source\tmetaedge\ttarget' > {out_file_path}"
         os.system(command)
-        command = f"grep {edge_type} data/edges.tsv >> {out_file_path}"
+        command = f"grep '{edge_type}' data/edges.tsv >> {out_file_path}"
         os.system(command)
