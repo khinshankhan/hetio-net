@@ -6,11 +6,6 @@ from py2neo.data import Node, Relationship
 
 from utils.common import node_types, edge_types, abbreviations
 
-NEO4J_URL = "localhost:7474"
-NEO4J_USERNAME = "neo4j"
-NEO4J_PASSWORD = "password"
-DATA_DIR = os.path.join(os.getcwd(), "data")
-
 class Neo4jController():
     def __init__(self):
         self.graph = Graph()
@@ -48,4 +43,4 @@ class Neo4jController():
             self.graph.run(query)
 
     def query_db(self, query):
-        print(query)
+        return self.graph.run(query).data()

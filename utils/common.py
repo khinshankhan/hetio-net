@@ -1,4 +1,6 @@
-NEO4J_HOME = "/usr/share/java/neo4j" # can vary based on system
+import os
+
+DATA_DIR = os.path.join(os.getcwd(), "data")
 
 node_types = ["Compound", "Disease", "Gene", "Anatomy"]
 edge_types = ["CrC", "CtD", "CpD", "CuG", "CbG", "CdG", "DrD", "DuG", "DaG",
@@ -8,3 +10,8 @@ abbreviations = {"C": "Compound", "D": "Disease", "G": "Gene", "A": "Anatomy",
         "u": "upregulates", "d": "downregulates", "b": "binds",
         "a": "associates", "l": "localizes", "e": "expresses",
         "r>": "regulates", "c": "covaries", "i": "interacts"}
+
+NEO4J_HOME = "/usr/share/java/neo4j" # can vary based on system
+NEO4J_URL = "localhost:7474"
+NEO4J_USERNAME = "neo4j"
+NEO4J_PASSWORD = "password"
