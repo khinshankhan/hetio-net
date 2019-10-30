@@ -1,5 +1,6 @@
 import os
 
+from utils import tsv_splitter
 from utils.neo4j import Neo4jController
 from utils.mongo import MongoController
 
@@ -57,6 +58,11 @@ def user_input(choice_details, choices):
 
 def main():
     "Executes splash screen and UI to use Hetio Net."
+
+    # take edge and node tsv files and split them up by type
+    tsv_splitter.write_node_files()
+    tsv_splitter.write_edge_files()
+
     # define dbs for queries
     mongo_controller = MongoController()
     mongo_controller.create_db()
