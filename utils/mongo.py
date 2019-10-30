@@ -30,12 +30,12 @@ class MongoController():
         # interaction in this method, so communications costs is decreased.
         # A disease should have the following structure:
         # disease = {
-        #     "id": "1",
-        #     "name": "woah",
-        #     "treat": "t",
-        #     "palliate": "p",
-        #     "gene": "g",
-        #     "where": "w"
+        #     "id": str,
+        #     "name": str,
+        #     "treat": [str],
+        #     "palliate": [str],
+        #     "gene": [str],
+        #     "where": [str],
         #     }
 
         diseases = {}
