@@ -24,37 +24,26 @@ class MongoController():
         # early exit
         if cols != 0:
             return
-        # TEST DATA
-        mydict = {
-            "id": "1",
-            "name": "woah",
-            "treat": "t",
-            "palliate": "p",
-            "gene": "g",
-            "where": "w"
-            }
-        mydict2 = {
-            "id": "1",
-            "name": "woah",
-            "treat": "tt",
-            "palliate": "pp",
-            "gene": "gg",
-            "where": "ww"
-            }
-        mydict3 = {
-            "id": "2",
-            "name": "hi",
-            "treat": "t",
-            "palliate": "pp",
-            "gene": "g",
-            "where": "ww"
-            }
-        self.m_col.insert([mydict, mydict2, mydict3])
+        # The idea is to group the diseases in such a manner that we have only
+        # a single document per disease since mongo CRD operations are fast but
+        # update is costly. Another benefit is that we only have one db
+        # interaction in this method, so communications costs is decreased.
+        # A disease should have the following structure:
+        # disease = {
+        #     "id": "1",
+        #     "name": "woah",
+        #     "treat": "t",
+        #     "palliate": "p",
+        #     "gene": "g",
+        #     "where": "w"
+        #     }
+
+        diseases = {}
+        self.m_col.insert([disease for disease in diseases])
 
     def query_db(self, query):
         "Queries the database."
         cur_id = self.m_col.find({"id": query})
-        cur_name = self.m_col.find({"name": query})
 
         cols = 0  # count return
         for _ in cur_id:
@@ -64,7 +53,7 @@ class MongoController():
 
         # choose which query was proper
         if cols == 0:
-            cur = cur_name
+            cur = self.m_col.find({"name": query})
         else:
             cur_id.rewind()  # to iterate again, we need to reset cursor
             cur = cur_id
