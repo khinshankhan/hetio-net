@@ -30,6 +30,15 @@ The following instructions were tested on Arch Linux:
 
 ## Run
 
+From download:
+
+```bash
+cd Khan_Rafi
+python app.py
+```
+
+From GitHub:
+
 ```bash
 git clone https://github.com/kkhan01/hetio-net
 cd hetio-net
