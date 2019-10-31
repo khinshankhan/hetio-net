@@ -45,7 +45,27 @@ cd hetio-net
 python app.py
 ```
 
-## Further Analysis Notes
+## Notes
+
+This project models Hetionet to answer the following queries:
+
+1. Given a disease, what is its name, what are drug names
+that can treat or palliate this disease, what are gene
+names that cause this disease, and where this disease
+occurs? Obtain and output this information in a single
+query.
+    - This is done by creating a MongoDB database that stores every disease in
+    a document with its relevant information
+
+1. Supposed that a drug can treat a disease if the drug or
+its similar drugs up-regulate/down-regulate a gene, but
+the location down-regulates/up-regulates the gene in
+an opposite direction where the disease occurs. Find all
+drugs that can treat new diseases (i.e. the missing
+edges between drug and disease). Obtain and output
+the drug-disease pairs in a single query.
+    - This is done by creating a neo4j database representing a graph of Hetionet and
+    then querying the relevant paths
 
 ### edges.tsv relationships
 
