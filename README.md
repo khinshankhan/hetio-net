@@ -1,53 +1,46 @@
 # hetio-net
-Model of HetioNet
+CSCI 493.71: Big Data  
+Project I: Model of HetioNet
 
 Khan_Rafi: Khinshan Khan and Shakil Rafi
 
-## Installation
-- [ ] Have this project on a path that you can execute scripts
-- [ ] Python 3+
-- [ ] mongo 4+
-- [ ] neo4j 3.5+
-- [ ] Java 8
-- [ ] pymongo
-- [ ] neo2py
-- [ ] start the neo4j
-  - `sudo systemctl start neo4j.service` or check your distro's way
-- [ ] start the
-  - `sudo systemctl enable mongodb.service` or check your distro's way
+## Requirements
 
-On arch or an arch based distro, you can run:
-```bash
-yay -S python
-yay -S mongo
-yay -S neo4j-community
-pip install pymongo
-pip install neo2py
-```
+- Python 3+
+- mongo 4+
+- neo4j 3.5+
+- Java 8
+- pymongo 3.9.0
+- py2neo 4.3.0
 
-Notes:
-- You should have a directory `/var/lib/neo4j/import/` which the user executing
-  the program has permissions to.
-- The neo4j username should be `neo4j` and password should be `password`. This
-  can be set at [http://localhost:7474](http://localhost:7474)
-  - If you need to, you can modify the source code's variables int the project
-    root's `utils/common.py`
-- You may encounter some path problems since the community version of neo4j
-  is a little broken on arch. Simply run `export PATH=/usr/share/neo4j/bin:$PATH`.
-- In `/etc/neo4j/neo4j.conf`, `dbms.directories.import` should be set to
-  `/var/lib/neo4j/import`.
-- Neo4j requires Java 8
-- It is recommended to install python packages in a
-  [virtualenv](https://docs.python-guide.org/dev/virtualenvs/)
+## Setup
+
+The following instructions were tested on Arch Linux:
+
+- start the MongoDB service:
+    - `sudo systemctl enable mongodb.service`
+- start the neo4j service:
+  - `sudo systemctl start neo4j.service`
+- in the file `/etc/neo4j/neo4j.conf` make sure that `dbms.directories.import` is set to `/var/lib/neo4j/import`.
+- the directory `/var/lib/neo4j/import/` should exist and your user should have read and write access to it:
+    - by default, this directory will be owned by the `neo4j` user and the `neo4j` group
+    - `usermod -a -G neo4j $(whoami)`
+- the default neo4j username is `neo4j` and the password is `password`
+    - modify `utils/common.py` to match your neo4j username and password
 
 ## Run
-Navigate over to the project root and run `python app.py`
+
+    ```bash
+    git clone https://github.com/kkhan01/hetio-net
+    cd hetio-net
+    python app.py
+    ```
 
 ## Further Analysis Notes
 
 ### edges.tsv relationships
 
-#### Compount
+#### Compound
 - CrC = Compound Resembles Compound
 - CtD = Compound Treats Disease
 - CpD = Compound Palliates Diseases
