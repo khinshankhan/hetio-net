@@ -18,6 +18,7 @@ class Neo4jController():
         query = "MATCH (n) RETURN COUNT(n);"
         result = self.graph.run(query).data()
         if result[0]['COUNT(n)'] != 0:
+            print("Neo4j database found")
             return
 
         print("Creating Neo4j database")
