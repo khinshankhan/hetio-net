@@ -30,11 +30,11 @@ The following instructions were tested on Arch Linux:
 
 ## Run
 
-    ```bash
-    git clone https://github.com/kkhan01/hetio-net
-    cd hetio-net
-    python app.py
-    ```
+```bash
+git clone https://github.com/kkhan01/hetio-net
+cd hetio-net
+python app.py
+```
 
 ## Further Analysis Notes
 
