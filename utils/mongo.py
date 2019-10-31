@@ -23,7 +23,10 @@ class MongoController():
             cols += 1
         # early exit
         if cols != 0:
+            print("Mongo database found")
             return
+        
+        print("Creating mongo database")
 
         # The idea is to group the diseases in such a manner that we have only
         # a single document per disease since mongo CRD operations are fast but
