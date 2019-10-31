@@ -4,11 +4,12 @@ import os
 from py2neo import Graph
 from py2neo.data import Node, Relationship
 
-from utils.common import node_types, edge_types, abbreviations
+from utils.common import node_types, edge_types, abbreviations,\
+        NEO4J_USERNAME, NEO4J_PASSWORD
 
 class Neo4jController():
     def __init__(self):
-        self.graph = Graph()
+        self.graph = Graph(user=NEO4J_USERNAME, password=NEO4J_PASSWORD)
 
     def clear_db(self):
         self.graph.delete_all()
