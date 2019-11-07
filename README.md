@@ -67,6 +67,13 @@ the drug-disease pairs in a single query.
     - This is done by creating a neo4j database representing a graph of Hetionet and
     then querying the relevant paths
 
+### Diagrams
+
+#### Query 1
+![](https://media.discordapp.net/attachments/356260638294540289/642094055508934656/unknown.png?width=361&height=245)
+#### Query 2
+![](https://media.discordapp.net/attachments/356260638294540289/642095049727016988/unknown.png?width=702&height=443)
+![](https://media.discordapp.net/attachments/356260638294540289/642093988056137785/unknown.png?width=581&height=360)
 ### edges.tsv relationships
 
 #### Compound
